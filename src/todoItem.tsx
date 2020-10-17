@@ -98,7 +98,7 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
           </label>
           <div className="actions">
             <button className="action-item edit-icon" onClick={e => this.handleEdit()} />
-            <button className="action-item destroy" onClick={this.props.onDestroy} />
+            <button className="action-item remove-icon" onClick={this.props.onDestroy} />
           </div>
         </div>
         <input

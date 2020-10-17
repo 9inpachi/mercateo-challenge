@@ -1,5 +1,30 @@
 /* Overriding existing and creating new styles */
 
+.edit-icon {
+  color: #ffe494;
+  transform: rotateY(180deg) translateY(-3px);
+}
+
+.edit-icon:hover {
+  color: #ffc107;
+}
+
+.edit-icon:after {
+  content: '✎';
+}
+
+.remove-icon {
+  color: #cc9a9a;
+}
+
+.remove-icon:hover {
+  color: #af5b5e;
+}
+
+.remove-icon:after {
+  content: '×';
+}
+
 .new-todo-wrapper {
   position: relative;
 }
@@ -14,12 +39,12 @@
   height: 40px;
   margin: auto 0;
   font-size: 30px;
-  color: #63db8d;
+  color: #a7eb88;
   cursor: pointer;
 }
 
 .new-todo-wrapper .add-todo:hover {
-  color: #4dbd74;
+  color: #69bd4d;
 }
 
 .new-todo-wrapper .add-todo:after {
@@ -57,26 +82,70 @@
   cursor: pointer;
 }
 
-.todo-list li .actions .destroy {
+.todo-list li .actions .edit-icon {
+  font-size: 23px;
+}
+
+.todo-list li .actions .remove-icon {
+  font-size: 30px;
+}
+
+.todo-label {
   display: inline-block;
   position: relative;
-  top: auto;
-  bottom: auto;
-  right: auto;
-  margin-bottom: 0;
+  background: #f1f1f1;
+  padding: 5px 15px;
+  font-size: 12px;
+  margin: 3px 5px;
+  border-radius: 15px;
+  padding-right: 30px;
 }
 
-.todo-list li .actions .edit-icon {
+.todo-label:last-child {
+  margin-right: 0;
+}
+
+.todo-label .todo-label-actions {
+  display: none;
+  position: absolute;
+  right: 7px;
+  top: 0;
+  bottom: 0;
+}
+
+.todo-label:hover .todo-label-actions {
+  display: block;
+}
+
+.todo-label .todo-label-actions .todo-label-action {
   display: inline-block;
-  color: #fcd768;
-  font-size: 23px;
-  transform: rotateY(180deg) translateY(-3px);
+  cursor: pointer;
+  font-size: 20px;
+  margin-top: 3px;
 }
 
-.todo-list li .actions .edit-icon:hover {
-  color: #ffc107;
+.labels {
+  display: flex;
 }
 
-.todo-list li .actions .edit-icon:after {
-  content: '✎';
+.labels .label-input {
+  flex-grow: 1;
+  align-self: flex-start;
+  box-sizing: border-box;
+  width: 25%;
+  border: none;
+  padding: 10px 15px;
+  font-size: 15px;
+}
+
+.labels .labels-added {
+  flex-grow: 3;
+  padding: 0 5px;
+  box-sizing: border-box;
+  width: 75%;
+  box-shadow: inset 3px 0 1px rgba(0,0,0,0.03);
+}
+
+.toggle-all + label {
+  top: 10px;
 }

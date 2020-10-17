@@ -33,11 +33,12 @@ class TodoModel implements ITodoModel {
     this.onChanges.forEach(function (cb) { cb(); });
   }
 
-  public addTodo(title : string) {
+  public addTodo(title : string, labels?: string[]) {
     this.todos = this.todos.concat({
       id: Utils.uuid(),
       title: title,
-      completed: false
+      completed: false,
+      labels: labels ? labels : []
     });
 
     this.inform();
@@ -87,6 +88,36 @@ class TodoModel implements ITodoModel {
     });
 
     this.inform();
+  }
+
+  public changeLabel(todoToChange: ITodo, label: string, onTodoFound: (todo: ITodo) => ITodo) {
+    this.todos = this.todos.map<ITodo>((todo: ITodo) => {
+      if (todo !== todoToChange) {
+        return todo;
+      } else {
+        const updatedTodo = onTodoFound(todo);
+        return Utils.extend({}, todo, { labels: updatedTodo.labels });
+      }
+    });
+
+    this.inform();
+  }
+
+  public replaceLabel(todoToChange: ITodo, oldLabel: string, newLabel: string) {
+    this.changeLabel(todoToChange, oldLabel, (todo) => {
+      const oldLabelIndex = todo.labels.indexOf(oldLabel);
+      if (oldLabelIndex !== -1) {
+        todo.labels[oldLabelIndex] = newLabel;
+      }
+      return todo;
+    });
+  }
+
+  public removeLabel(todoToChange: ITodo, label: string) {
+    this.changeLabel(todoToChange, label, (todo) => {
+      todo.labels.splice(todo.labels.indexOf(label), 1);
+      return todo;
+    });
   }
 }
 

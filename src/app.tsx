@@ -12,33 +12,37 @@ import * as ReactDOM from "react-dom";
 import { TodoModel } from "./todoModel";
 import { TodoFooter } from "./footer";
 import { TodoItem } from "./todoItem";
+import TodoLabel from "./todoLabel";
 import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS, ENTER_KEY } from "./constants";
 
 class TodoApp extends React.Component<IAppProps, IAppState> {
 
-  public state : IAppState;
+  public state: IAppState;
   private newField: React.RefObject<HTMLInputElement>;
+  private labelField: React.RefObject<HTMLInputElement>;
 
-  constructor(props : IAppProps) {
+  constructor(props: IAppProps) {
     super(props);
     this.newField = React.createRef();
+    this.labelField = React.createRef();
     this.state = {
       nowShowing: ALL_TODOS,
-      editing: null
+      editing: null,
+      newTodoLabels: []
     };
   }
 
   public componentDidMount() {
     var setState = this.setState;
     var router = Router({
-      '/': setState.bind(this, {nowShowing: ALL_TODOS}),
-      '/active': setState.bind(this, {nowShowing: ACTIVE_TODOS}),
-      '/completed': setState.bind(this, {nowShowing: COMPLETED_TODOS})
+      '/': setState.bind(this, { nowShowing: ALL_TODOS }),
+      '/active': setState.bind(this, { nowShowing: ACTIVE_TODOS }),
+      '/completed': setState.bind(this, { nowShowing: COMPLETED_TODOS })
     });
     router.init('/');
   }
 
-  public handleNewTodoKeyDown(event : React.KeyboardEvent) {
+  public handleNewTodoKeyDown(event: React.KeyboardEvent) {
     if (event.keyCode !== ENTER_KEY) {
       return;
     }
@@ -57,35 +61,56 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
     }
   }
 
-  public toggleAll(event : React.FormEvent) {
-    var target : any = event.target;
+  public toggleAll(event: React.FormEvent) {
+    var target: any = event.target;
     var checked = target.checked;
     this.props.model.toggleAll(checked);
   }
 
-  public toggle(todoToToggle : ITodo) {
+  public toggle(todoToToggle: ITodo) {
     this.props.model.toggle(todoToToggle);
   }
 
-  public destroy(todo : ITodo) {
+  public destroy(todo: ITodo) {
     this.props.model.destroy(todo);
   }
 
-  public edit(todo : ITodo) {
-    this.setState({editing: todo.id});
+  public edit(todo: ITodo) {
+    this.setState({ editing: todo.id });
   }
 
-  public save(todoToSave : ITodo, text : String) {
+  public save(todoToSave: ITodo, text: String) {
     this.props.model.save(todoToSave, text);
-    this.setState({editing: null});
+    this.setState({ editing: null });
   }
 
   public cancel() {
-    this.setState({editing: null});
+    this.setState({ editing: null });
   }
 
   public clearCompleted() {
     this.props.model.clearCompleted();
+  }
+
+  public addLabel(e: React.KeyboardEvent) {
+    if (e.keyCode !== ENTER_KEY) {
+      return;
+    }
+
+    const newLabelField = (ReactDOM.findDOMNode(this.labelField.current) as HTMLInputElement);
+    const val = newLabelField.value;
+    if (val && !this.state.newTodoLabels.includes(val)) {
+      this.setState({ newTodoLabels: [...this.state.newTodoLabels, val] });
+      newLabelField.value = '';
+    }
+  }
+
+  public deleteLabel(value: string) {
+    if (value) {
+      const todoLabels = this.state.newTodoLabels;
+      todoLabels.splice(todoLabels.indexOf(value), 1);
+      this.setState({ newTodoLabels: todoLabels });
+    }
   }
 
   public render() {
@@ -95,12 +120,12 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
 
     var shownTodos = todos.filter((todo) => {
       switch (this.state.nowShowing) {
-      case ACTIVE_TODOS:
-        return !todo.completed;
-      case COMPLETED_TODOS:
-        return todo.completed;
-      default:
-        return true;
+        case ACTIVE_TODOS:
+          return !todo.completed;
+        case COMPLETED_TODOS:
+          return todo.completed;
+        default:
+          return true;
       }
     });
 
@@ -114,7 +139,7 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
           onEdit={this.edit.bind(this, todo)}
           editing={this.state.editing === todo.id}
           onSave={this.save.bind(this, todo)}
-          onCancel={ e => this.cancel() }
+          onCancel={e => this.cancel()}
         />
       );
     });
@@ -135,25 +160,13 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
           count={activeTodoCount}
           completedCount={completedCount}
           nowShowing={this.state.nowShowing}
-          onClearCompleted={ e=> this.clearCompleted() }
+          onClearCompleted={e => this.clearCompleted()}
         />;
     }
 
     if (todos.length) {
       main = (
         <section className="main">
-          <input
-            id="toggle-all"
-            className="toggle-all"
-            type="checkbox"
-            onChange={ e => this.toggleAll(e) }
-            checked={activeTodoCount === 0}
-          />
-          <label
-            htmlFor="toggle-all"
-          >
-            Mark all as complete
-          </label>
           <ul className="todo-list">
             {todoItems}
           </ul>
@@ -170,10 +183,42 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
               ref={this.newField}
               className="new-todo"
               placeholder="What needs to be done?"
-              onKeyDown={ e => this.handleNewTodoKeyDown(e) }
+              onKeyDown={e => this.handleNewTodoKeyDown(e)}
               autoFocus={true}
             />
             <button className="add-todo" onClick={this.addTodoItem.bind(this)} />
+
+            <input
+              id="toggle-all"
+              className="toggle-all"
+              type="checkbox"
+              onChange={e => this.toggleAll(e)}
+              checked={activeTodoCount === 0}
+            />
+            <label htmlFor="toggle-all">
+              Mark all as complete
+            </label>
+          </div>
+          <div className="labels">
+            <input
+              ref={this.labelField}
+              className="label-input"
+              placeholder="Add label"
+              onKeyDown={this.addLabel.bind(this)}
+              autoFocus={true}
+            />
+            <div className="labels-added">
+              {this.state.newTodoLabels && this.state.newTodoLabels.length > 0 &&
+                this.state.newTodoLabels.map((label, i) => {
+                  return <TodoLabel
+                    key={'todo-label-' + i}
+                    editable={false}
+                    deletable={true}
+                    label={label}
+                    onDelete={this.deleteLabel.bind(this)}
+                  />
+                })}
+            </div>
           </div>
         </header>
         {main}
@@ -187,7 +232,7 @@ var model = new TodoModel('react-todos');
 
 function render() {
   ReactDOM.render(
-    <TodoApp model={model}/>,
+    <TodoApp model={model} />,
     document.getElementsByClassName('todoapp')[0]
   );
 }

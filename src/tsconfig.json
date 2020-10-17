@@ -6,6 +6,7 @@
     "moduleResolution": "node",
     "isolatedModules": false,
     "jsx": "react",
+    "lib": ["es6", "dom", "es2017"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "declaration": false,
@@ -20,14 +21,9 @@
     "**/*.tsx",
     "!node_modules/**"
   ],
-  "files": [
-    "constants.ts",
-    "interfaces.d.ts",
-    "todoModel.ts",
-    "utils.ts",
-    "app.tsx",
-    "footer.tsx",
-    "todoItem.tsx"
+  "include": [
+    "./*.ts",
+    "./*.tsx"
   ],
   "exclude": [],
   "baseUrl": "./",
