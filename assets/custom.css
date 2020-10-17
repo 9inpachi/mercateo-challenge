@@ -1,0 +1,82 @@
+/* Overriding existing and creating new styles */
+
+.new-todo-wrapper {
+  position: relative;
+}
+
+.new-todo-wrapper .add-todo {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  margin: auto 0;
+  font-size: 30px;
+  color: #63db8d;
+  cursor: pointer;
+}
+
+.new-todo-wrapper .add-todo:hover {
+  color: #4dbd74;
+}
+
+.new-todo-wrapper .add-todo:after {
+  content: '+';
+}
+
+.new-todo-wrapper:hover .add-todo {
+  display: block;
+}
+
+.todo-list li.completed label {
+  text-decoration: none;
+}
+
+.todo-list li .actions {
+  display: none;
+  position: absolute;
+  height: 40px;
+  top: 0;
+  right: 10px;
+  bottom: 0;
+  font-size: 30px;
+  margin: auto 0;
+  margin-bottom: 10px;
+}
+
+.todo-list li:hover .actions {
+  display: block;
+}
+
+.todo-list li .actions .action-item {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.todo-list li .actions .destroy {
+  display: inline-block;
+  position: relative;
+  top: auto;
+  bottom: auto;
+  right: auto;
+  margin-bottom: 0;
+}
+
+.todo-list li .actions .edit-icon {
+  display: inline-block;
+  color: #fcd768;
+  font-size: 23px;
+  transform: rotateY(180deg) translateY(-3px);
+}
+
+.todo-list li .actions .edit-icon:hover {
+  color: #ffc107;
+}
+
+.todo-list li .actions .edit-icon:after {
+  content: '✎';
+}

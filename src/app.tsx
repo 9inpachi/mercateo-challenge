@@ -45,6 +45,10 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
 
     event.preventDefault();
 
+    this.addTodoItem();
+  }
+
+  public addTodoItem() {
     var val = (ReactDOM.findDOMNode(this.newField.current) as HTMLInputElement).value.trim();
 
     if (val) {
@@ -161,13 +165,16 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
       <div>
         <header className="header">
           <h1>todos</h1>
-          <input
-            ref={this.newField}
-            className="new-todo"
-            placeholder="What needs to be done?"
-            onKeyDown={ e => this.handleNewTodoKeyDown(e) }
-            autoFocus={true}
-          />
+          <div className="new-todo-wrapper">
+            <input
+              ref={this.newField}
+              className="new-todo"
+              placeholder="What needs to be done?"
+              onKeyDown={ e => this.handleNewTodoKeyDown(e) }
+              autoFocus={true}
+            />
+            <button className="add-todo" onClick={this.addTodoItem.bind(this)} />
+          </div>
         </header>
         {main}
         {footer}
