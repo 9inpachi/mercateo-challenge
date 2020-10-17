@@ -17,9 +17,11 @@ import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS, ENTER_KEY } from "./constants
 class TodoApp extends React.Component<IAppProps, IAppState> {
 
   public state : IAppState;
+  private newField: React.RefObject<HTMLInputElement>;
 
   constructor(props : IAppProps) {
     super(props);
+    this.newField = React.createRef();
     this.state = {
       nowShowing: ALL_TODOS,
       editing: null
@@ -43,11 +45,11 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
 
     event.preventDefault();
 
-    var val = (ReactDOM.findDOMNode(this.refs["newField"]) as HTMLInputElement).value.trim();
+    var val = (ReactDOM.findDOMNode(this.newField.current) as HTMLInputElement).value.trim();
 
     if (val) {
       this.props.model.addTodo(val);
-      (ReactDOM.findDOMNode(this.refs["newField"]) as HTMLInputElement).value = '';
+      (ReactDOM.findDOMNode(this.newField.current) as HTMLInputElement).value = '';
     }
   }
 
@@ -160,7 +162,7 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
         <header className="header">
           <h1>todos</h1>
           <input
-            ref="newField"
+            ref={this.newField}
             className="new-todo"
             placeholder="What needs to be done?"
             onKeyDown={ e => this.handleNewTodoKeyDown(e) }

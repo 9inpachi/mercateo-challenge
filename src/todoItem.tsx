@@ -14,9 +14,11 @@ import { ENTER_KEY, ESCAPE_KEY } from "./constants";
 class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
 
   public state : ITodoItemState;
+  private editField: React.RefObject<HTMLInputElement>;
 
   constructor(props : ITodoItemProps){
     super(props);
+    this.editField = React.createRef();
     this.state = { editText: this.props.todo.title };
   }
 
@@ -72,7 +74,7 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
    */
   public componentDidUpdate(prevProps : ITodoItemProps) {
     if (!prevProps.editing && this.props.editing) {
-      var node = (ReactDOM.findDOMNode(this.refs["editField"]) as HTMLInputElement);
+      var node = (ReactDOM.findDOMNode(this.editField.current) as HTMLInputElement);
       node.focus();
       node.setSelectionRange(node.value.length, node.value.length);
     }
@@ -97,7 +99,7 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
           <button className="destroy" onClick={this.props.onDestroy} />
         </div>
         <input
-          ref="editField"
+          ref={this.editField}
           className="edit"
           value={this.state.editText}
           onBlur={ e => this.handleSubmit(e) }
