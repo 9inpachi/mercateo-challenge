@@ -10,6 +10,7 @@ import * as classNames from "classnames";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { ENTER_KEY, ESCAPE_KEY } from "./constants";
+import TodoLabel from "./todoLabel";
 
 class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
 
@@ -96,6 +97,15 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
           <label onDoubleClick={e => this.handleEdit()}>
             {this.props.todo.title}
           </label>
+          <div className="todo-item-labels">
+            {this.props.todo.labels && this.props.todo.labels.length > 0 &&
+              this.props.todo.labels.map((label, i) => {
+                return <TodoLabel
+                  key={'todo-item-label-' + i}
+                  label={label}
+                />;
+              })}
+          </div>
           <div className="actions">
             <button className="action-item edit-icon" onClick={e => this.handleEdit()} />
             <button className="action-item remove-icon" onClick={this.props.onDestroy} />
@@ -105,10 +115,22 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
           ref={this.editField}
           className="edit"
           value={this.state.editText}
-          onBlur={e => this.handleSubmit(e)}
           onChange={e => this.handleChange(e)}
           onKeyDown={e => this.handleKeyDown(e)}
         />
+        <div className="todo-item-labels todo-item-labels-edit">
+          {this.props.todo.labels && this.props.todo.labels.length > 0 &&
+            this.props.todo.labels.map((label, i) => {
+              return <TodoLabel
+                key={'todo-item-label-edit-' + i}
+                label={label}
+                editable={true}
+                deletable={true}
+                onReplace={(newLabel) => this.props.onLabelReplace(label, newLabel)}
+                onRemove={(value) => this.props.onLabelRemove(value)}
+              />;
+            })}
+        </div>
       </li>
     );
   }

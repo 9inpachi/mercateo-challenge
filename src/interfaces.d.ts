@@ -14,6 +14,8 @@ interface ITodoItemProps {
   onEdit: () => void;
   onCancel: (event: any) => void;
   onToggle: () => void;
+  onLabelReplace?: (value: string, newValue: string) => void,
+  onLabelRemove?: (value: string) => void
 }
 
 interface ITodoItemState {
@@ -34,12 +36,14 @@ interface ITodoModel {
   onChanges: Array<any>;
   subscribe(onChange);
   inform();
-  addTodo(title: string);
+  addTodo(title: string, labels?: string[]);
   toggleAll(checked);
   toggle(todoToToggle);
   destroy(todo);
   save(todoToSave, text);
   clearCompleted();
+  replaceLabel(todoToChange: ITodo, oldLabel: string, newLabel: string): void;
+  removeLabel(todoToChange: ITodo, label: string): void;
 }
 
 interface IAppProps {
@@ -55,11 +59,12 @@ interface IAppState {
 interface ITodoLabelProps {
   editable?: boolean,
   deletable?: boolean,
-  onDelete?: (value: string) => void,
-  onUpdate?: (value: string) => void,
+  onReplace?: (value: string) => void,
+  onRemove?: (value: string) => void,
   label: string
 }
 
 interface ITodoLabelState {
+  editText: string,
   editing?: boolean
 }

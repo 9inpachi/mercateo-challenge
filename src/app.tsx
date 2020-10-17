@@ -56,7 +56,7 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
     var val = (ReactDOM.findDOMNode(this.newField.current) as HTMLInputElement).value.trim();
 
     if (val) {
-      this.props.model.addTodo(val);
+      this.props.model.addTodo(val, this.state.newTodoLabels);
       (ReactDOM.findDOMNode(this.newField.current) as HTMLInputElement).value = '';
     }
   }
@@ -140,6 +140,10 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
           editing={this.state.editing === todo.id}
           onSave={this.save.bind(this, todo)}
           onCancel={e => this.cancel()}
+          onLabelReplace={(value, newValue) => {
+            this.props.model.replaceLabel(todo, value, newValue)
+          }}
+          onLabelRemove={(value) => this.props.model.removeLabel(todo, value)}
         />
       );
     });
@@ -215,7 +219,7 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
                     editable={false}
                     deletable={true}
                     label={label}
-                    onDelete={this.deleteLabel.bind(this)}
+                    onRemove={this.deleteLabel.bind(this)}
                   />
                 })}
             </div>

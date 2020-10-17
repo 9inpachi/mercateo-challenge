@@ -10,7 +10,7 @@
 }
 
 .edit-icon:after {
-  content: '✎';
+  content: "✎";
 }
 
 .remove-icon {
@@ -22,7 +22,7 @@
 }
 
 .remove-icon:after {
-  content: '×';
+  content: "×";
 }
 
 .new-todo-wrapper {
@@ -48,7 +48,7 @@
 }
 
 .new-todo-wrapper .add-todo:after {
-  content: '+';
+  content: "+";
 }
 
 .new-todo-wrapper:hover .add-todo {
@@ -63,12 +63,10 @@
   display: none;
   position: absolute;
   height: 40px;
-  top: 0;
+  top: 10px;
   right: 10px;
   bottom: 0;
   font-size: 30px;
-  margin: auto 0;
-  margin-bottom: 10px;
 }
 
 .todo-list li:hover .actions {
@@ -90,38 +88,82 @@
   font-size: 30px;
 }
 
+.todo-item-labels {
+  padding-left: 55px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  transition: opacity 0.4s;
+}
+
+.todo-list li.editing .todo-item-labels {
+  margin-top: 0;
+}
+
+.todo-list li .todo-item-labels-edit {
+  display: none;
+}
+
+.todo-list li.editing .todo-item-labels-edit {
+  display: block;
+}
+
+.todo-list li.completed .todo-item-labels {
+  opacity: 0.3;
+  transition: opacity 0.4s;
+}
+
 .todo-label {
   display: inline-block;
   position: relative;
   background: #f1f1f1;
-  padding: 5px 15px;
-  font-size: 12px;
-  margin: 3px 5px;
-  border-radius: 15px;
-  padding-right: 30px;
+  color: #7e7e7e;
+  padding: 2px 10px;
+  font-size: 11px;
+  margin: 2px;
+  border-radius: 10px;
 }
 
-.todo-label:last-child {
-  margin-right: 0;
+.todo-label.editable .todo-label-input {
+  font-size: 11px;
 }
 
-.todo-label .todo-label-actions {
+.todo-label.editable .todo-label-actions {
   display: none;
-  position: absolute;
-  right: 7px;
-  top: 0;
-  bottom: 0;
-}
-
-.todo-label:hover .todo-label-actions {
-  display: block;
-}
-
-.todo-label .todo-label-actions .todo-label-action {
-  display: inline-block;
-  cursor: pointer;
+  height: 10px;
   font-size: 20px;
-  margin-top: 3px;
+  align-items: center;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+.todo-label.editable:hover .todo-label-actions,
+.todo-list li.editing .todo-label.editable .todo-label-actions {
+  display: inline-flex;
+}
+
+.todo-label.editable .todo-label-action {
+  margin: 0 1px;
+  vertical-align: middle;
+}
+
+.todo-label.editable .todo-label-action.edit-icon {
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.todo-label.editable .todo-label-input {
+  display: none;
+  background: transparent;
+  border: none;
+  width: 100px;
+}
+
+.todo-label.editable.editing .todo-label-input {
+  display: inline;
+}
+
+.todo-label.editable.editing span {
+  display: none;
 }
 
 .labels {
@@ -139,11 +181,14 @@
 }
 
 .labels .labels-added {
+  display: flex;
   flex-grow: 3;
+  flex-wrap: wrap;
+  align-items: center;
   padding: 0 5px;
   box-sizing: border-box;
   width: 75%;
-  box-shadow: inset 3px 0 1px rgba(0,0,0,0.03);
+  box-shadow: inset 3px 0 1px rgba(0, 0, 0, 0.03);
 }
 
 .toggle-all + label {
