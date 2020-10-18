@@ -58,6 +58,7 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
     if (val) {
       this.props.model.addTodo(val, this.state.newTodoLabels);
       (ReactDOM.findDOMNode(this.newField.current) as HTMLInputElement).value = '';
+      this.setState({ newTodoLabels: [] });
     }
   }
 

@@ -116,6 +116,11 @@
   font-size: 30px;
 }
 
+.todo-list li .toggle {
+  top: 9px;
+  margin: 0;
+}
+
 /* Todo item labels */
 
 .todo-item-labels {

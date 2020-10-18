@@ -52,6 +52,7 @@ var TodoApp = (function (_super) {
         if (val) {
             this.props.model.addTodo(val, this.state.newTodoLabels);
             ReactDOM.findDOMNode(this.newField.current).value = '';
+            this.setState({ newTodoLabels: [] });
         }
     };
     TodoApp.prototype.toggleAll = function (event) {
@@ -283,6 +284,15 @@ var TodoItem = (function (_super) {
             node.setSelectionRange(node.value.length, node.value.length);
         }
     };
+    TodoItem.prototype.handleAddLabel = function () {
+        var labelIndex = this.props.todo.labels.length;
+        var newLabel = 'Label ' + labelIndex;
+        while (this.props.todo.labels.includes(newLabel)) {
+            labelIndex++;
+            newLabel = 'Label ' + labelIndex;
+        }
+        this.props.onLabelAdd(newLabel);
+    };
     TodoItem.prototype.render = function () {
         var _this = this;
         return (React.createElement("li", { className: classNames({
@@ -307,7 +317,7 @@ var TodoItem = (function (_super) {
                         this.props.todo.labels.map(function (label, i) {
                             return React.createElement(todoLabel_1.default, { key: _this.props.todo.id + '-label-edit-' + i, label: label, editable: true, deletable: true, onReplace: function (newLabel) { return _this.props.onLabelReplace(label, newLabel); }, onRemove: function (value) { return _this.props.onLabelRemove(value); } });
                         }),
-                    React.createElement("button", { className: "add-icon", onClick: function (e) { return _this.props.onLabelAdd('Label'); } })))));
+                    React.createElement("button", { className: "add-icon", onClick: this.handleAddLabel.bind(this) })))));
     };
     return TodoItem;
 }(React.Component));
@@ -359,6 +369,11 @@ var TodoLabel = (function (_super) {
             this.setState({ editing: false });
         }
     };
+    TodoLabel.prototype.handleDoubleClick = function (e) {
+        if (this.props.editable) {
+            this.setState({ editing: true });
+        }
+    };
     TodoLabel.prototype.render = function () {
         var _this = this;
         return (React.createElement("div", { className: classNames({
@@ -366,7 +381,7 @@ var TodoLabel = (function (_super) {
                 editing: this.state.editing,
                 editable: this.props.editable
             }) },
-            React.createElement("span", { onDoubleClick: function () { return _this.setState({ editing: true }); } }, this.props.label),
+            React.createElement("span", { onDoubleClick: this.handleDoubleClick.bind(this) }, this.props.label),
             this.props.editable &&
                 React.createElement("input", { className: "todo-label-input", value: this.state.editText, onChange: this.handleChange.bind(this), onBlur: this.handleSubmit.bind(this), onKeyDown: this.handleKeyDown.bind(this) }),
             React.createElement("div", { className: "todo-label-actions" },

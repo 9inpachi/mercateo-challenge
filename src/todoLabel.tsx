@@ -36,6 +36,12 @@ class TodoLabel extends React.Component<ITodoLabelProps, ITodoLabelState> {
     }
   }
 
+  private handleDoubleClick(e: React.MouseEvent) {
+    if (this.props.editable) {
+      this.setState({ editing: true });
+    }
+  }
+
   render() {
     return (
       <div className={classNames({
@@ -43,7 +49,7 @@ class TodoLabel extends React.Component<ITodoLabelProps, ITodoLabelState> {
         editing: this.state.editing,
         editable: this.props.editable
       })}>
-        <span onDoubleClick={() => this.setState({ editing: true })}>{this.props.label}</span>
+        <span onDoubleClick={this.handleDoubleClick.bind(this)}>{this.props.label}</span>
         {this.props.editable &&
           <input
             className="todo-label-input"

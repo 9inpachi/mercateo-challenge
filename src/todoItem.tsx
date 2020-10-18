@@ -81,6 +81,19 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
     }
   }
 
+  /**
+   * Handle add label to avoid duplication of labels.
+   */
+  public handleAddLabel() {
+    let labelIndex = this.props.todo.labels.length;
+    let newLabel = 'Label ' + labelIndex;
+    while (this.props.todo.labels.includes(newLabel)) {
+      labelIndex++;
+      newLabel = 'Label ' + labelIndex;
+    }
+    this.props.onLabelAdd(newLabel);
+  }
+
   public render() {
     return (
       <li className={classNames({
@@ -132,7 +145,7 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
                   onRemove={(value) => this.props.onLabelRemove(value)}
                 />;
               })}
-            <button className="add-icon" onClick={(e) => this.props.onLabelAdd('Label')} />
+            <button className="add-icon" onClick={this.handleAddLabel.bind(this)} />
           </div>
         </div>
       </li>
