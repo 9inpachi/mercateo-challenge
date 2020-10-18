@@ -105,9 +105,11 @@ class TodoModel implements ITodoModel {
 
   public replaceLabel(todoToChange: ITodo, oldLabel: string, newLabel: string) {
     this.changeLabel(todoToChange, oldLabel, (todo) => {
-      const oldLabelIndex = todo.labels.indexOf(oldLabel);
-      if (oldLabelIndex !== -1) {
-        todo.labels[oldLabelIndex] = newLabel;
+      if (!todo.labels.includes(newLabel)) {
+        const oldLabelIndex = todo.labels.indexOf(oldLabel);
+        if (oldLabelIndex !== -1) {
+          todo.labels[oldLabelIndex] = newLabel;
+        }
       }
       return todo;
     });
@@ -118,6 +120,19 @@ class TodoModel implements ITodoModel {
       todo.labels.splice(todo.labels.indexOf(label), 1);
       return todo;
     });
+  }
+
+  public addLabel(todoToChange: ITodo, label: string) {
+    this.todos = this.todos.map<ITodo>((todo: ITodo) => {
+      if (todo !== todoToChange) {
+        return todo;
+      } else {
+        todo.labels.push(label);
+        return Utils.extend({}, todo, { labels: todo.labels });
+      }
+    });
+
+    this.inform();
   }
 }
 

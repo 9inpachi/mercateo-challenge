@@ -15,7 +15,8 @@ interface ITodoItemProps {
   onCancel: (event: any) => void;
   onToggle: () => void;
   onLabelReplace?: (value: string, newValue: string) => void,
-  onLabelRemove?: (value: string) => void
+  onLabelRemove?: (value: string) => void,
+  onLabelAdd?: (value: string) => void
 }
 
 interface ITodoItemState {
@@ -44,6 +45,7 @@ interface ITodoModel {
   clearCompleted();
   replaceLabel(todoToChange: ITodo, oldLabel: string, newLabel: string): void;
   removeLabel(todoToChange: ITodo, label: string): void;
+  addLabel(todoToChange: ITodo, label: string): void;
 }
 
 interface IAppProps {

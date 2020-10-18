@@ -27,16 +27,26 @@
   content: "×";
 }
 
-.tick-icon {
+.tick-icon,
+.add-icon {
   color: #a7eb88;
 }
 
-.tick-icon:hover {
+.tick-icon {
+  transform: rotateZ(20deg);
+}
+
+.tick-icon:hover,
+.add-icon:hover {
   color: #69bd4d;
 }
 
 .tick-icon:after {
-  content: "☑";
+  content: "✓";
+}
+
+.add-icon:after {
+  content: "+";
 }
 
 /* New todo form and input */
@@ -109,6 +119,8 @@
 /* Todo item labels */
 
 .todo-item-labels {
+  display: flex;
+  flex-wrap: wrap;
   padding-left: 55px;
   margin-top: -10px;
   margin-bottom: 10px;
@@ -116,7 +128,7 @@
 }
 
 .todo-list li.editing .todo-item-labels {
-  margin-top: 0;
+  margin-top: 5px;
 }
 
 .todo-list li .todo-item-labels-edit {
@@ -124,7 +136,8 @@
 }
 
 .todo-list li.editing .todo-item-labels-edit {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .todo-list li.completed .todo-item-labels {
@@ -240,6 +253,15 @@
 
 .todo-list li.editing .edit-mode .tick-icon {
   display: block;
+}
+
+.todo-list li .edit-mode .add-icon {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.todo-list li .edit-mode .add-icon:first-child {
+  margin-left: 0;
 }
 
 /* Misc */

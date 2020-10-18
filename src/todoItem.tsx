@@ -101,7 +101,7 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
             {this.props.todo.labels && this.props.todo.labels.length > 0 &&
               this.props.todo.labels.map((label, i) => {
                 return <TodoLabel
-                  key={'todo-item-label-' + i}
+                  key={this.props.todo.id + '-label-' + i}
                   label={label}
                 />;
               })}
@@ -124,7 +124,7 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
             {this.props.todo.labels && this.props.todo.labels.length > 0 &&
               this.props.todo.labels.map((label, i) => {
                 return <TodoLabel
-                  key={'todo-item-label-edit-' + i}
+                  key={this.props.todo.id + '-label-edit-' + i}
                   label={label}
                   editable={true}
                   deletable={true}
@@ -132,6 +132,7 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
                   onRemove={(value) => this.props.onLabelRemove(value)}
                 />;
               })}
+            <button className="add-icon" onClick={(e) => this.props.onLabelAdd('Label')} />
           </div>
         </div>
       </li>

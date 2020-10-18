@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames = require('classnames');
-import { ENTER_KEY } from './constants';
+import { ENTER_KEY, ESCAPE_KEY } from './constants';
 
 class TodoLabel extends React.Component<ITodoLabelProps, ITodoLabelState> {
 
@@ -19,17 +19,17 @@ class TodoLabel extends React.Component<ITodoLabelProps, ITodoLabelState> {
   }
 
   private handleSubmit(e: React.FormEvent) {
-    if (this.props.onReplace) {
+    if (this.state.editText && this.props.onReplace) {
       this.props.onReplace(this.state.editText);
     }
     this.setState({ editing: false });
   }
 
   private handleKeyDown(e: React.KeyboardEvent) {
-    if (e.keyCode !== ENTER_KEY) {
+    if (![ENTER_KEY, ESCAPE_KEY].includes(e.keyCode)) {
       return;
     } else {
-      if (this.props.onReplace) {
+      if (this.state.editText && this.props.onReplace) {
         this.props.onReplace(this.state.editText);
       }
       this.setState({ editing: false });
@@ -43,7 +43,7 @@ class TodoLabel extends React.Component<ITodoLabelProps, ITodoLabelState> {
         editing: this.state.editing,
         editable: this.props.editable
       })}>
-        <span>{this.props.label}</span>
+        <span onDoubleClick={() => this.setState({ editing: true })}>{this.props.label}</span>
         {this.props.editable &&
           <input
             className="todo-label-input"

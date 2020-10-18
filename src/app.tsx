@@ -144,6 +144,7 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
             this.props.model.replaceLabel(todo, value, newValue)
           }}
           onLabelRemove={(value) => this.props.model.removeLabel(todo, value)}
+          onLabelAdd={(value) => this.props.model.addLabel(todo, value)}
         />
       );
     });
@@ -215,7 +216,7 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
               {this.state.newTodoLabels && this.state.newTodoLabels.length > 0 &&
                 this.state.newTodoLabels.map((label, i) => {
                   return <TodoLabel
-                    key={'todo-label-' + i}
+                    key={this.props.model.key + '-todo-label-' + i}
                     editable={false}
                     deletable={true}
                     label={label}
