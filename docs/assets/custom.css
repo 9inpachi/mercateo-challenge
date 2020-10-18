@@ -116,28 +116,22 @@
   font-size: 30px;
 }
 
-.todo-list li .toggle {
-  top: 9px;
-  margin: 0;
-}
-
 /* Todo item labels */
 
 .todo-item-labels {
   display: flex;
   flex-wrap: wrap;
-  padding-left: 55px;
-  margin-top: -10px;
-  margin-bottom: 10px;
   transition: opacity 0.4s;
 }
 
 .todo-list li.editing .todo-item-labels {
   margin-top: 5px;
+  padding-left: 55px;
 }
 
 .todo-list li .todo-item-labels-edit {
   display: none;
+  margin-bottom: 10px;
 }
 
 .todo-list li.editing .todo-item-labels-edit {
@@ -267,6 +261,11 @@
 
 .todo-list li .edit-mode .add-icon:first-child {
   margin-left: 0;
+}
+
+.todo-list li .view {
+  display: flex;
+  align-items: center;
 }
 
 /* Misc */

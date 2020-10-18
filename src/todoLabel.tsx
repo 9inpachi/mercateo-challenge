@@ -49,7 +49,7 @@ class TodoLabel extends React.Component<ITodoLabelProps, ITodoLabelState> {
         editing: this.state.editing,
         editable: this.props.editable
       })}>
-        <span onDoubleClick={this.handleDoubleClick.bind(this)}>{this.props.label}</span>
+        <span onDoubleClick={this.handleDoubleClick.bind(this)}>@{this.props.label}</span>
         {this.props.editable &&
           <input
             className="todo-label-input"

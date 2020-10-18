@@ -381,7 +381,9 @@ var TodoLabel = (function (_super) {
                 editing: this.state.editing,
                 editable: this.props.editable
             }) },
-            React.createElement("span", { onDoubleClick: this.handleDoubleClick.bind(this) }, this.props.label),
+            React.createElement("span", { onDoubleClick: this.handleDoubleClick.bind(this) },
+                "@",
+                this.props.label),
             this.props.editable &&
                 React.createElement("input", { className: "todo-label-input", value: this.state.editText, onChange: this.handleChange.bind(this), onBlur: this.handleSubmit.bind(this), onKeyDown: this.handleKeyDown.bind(this) }),
             React.createElement("div", { className: "todo-label-actions" },
