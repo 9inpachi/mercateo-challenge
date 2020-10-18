@@ -1,8 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "build": "tsc -p ./src/ && node ./node_modules/browserify/bin/cmd ./dist/app.js -o ./dist/bundle.js",
-    "start": "node ./serve.js"
+    "build": "npm run tsc && node ./node_modules/browserify/bin/cmd ./dist/app.js -o ./dist/bundle.js",
+    "start": "node ./serve.js",
+    "test": "npm run tsc && jest ./dist/tests/",
+    "tsc": "tsc -p ./src/"
   },
   "dependencies": {
     "@types/classnames": "^2.2.6",
@@ -16,8 +18,18 @@
     "todomvc-common": "^1.0.1"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.14",
     "browserify": "^16.2.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "jest": "^26.5.3",
     "node-static": "^0.7.11",
-    "typescript": "^2.9.2"
+    "react-test-renderer": "^16.14.0",
+    "typescript": "^4.0.3"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/dist/tests/setupTests.js"
+    ]
   }
 }
