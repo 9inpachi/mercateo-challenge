@@ -111,25 +111,28 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
             <button className="action-item remove-icon" onClick={this.props.onDestroy} />
           </div>
         </div>
-        <input
-          ref={this.editField}
-          className="edit"
-          value={this.state.editText}
-          onChange={e => this.handleChange(e)}
-          onKeyDown={e => this.handleKeyDown(e)}
-        />
-        <div className="todo-item-labels todo-item-labels-edit">
-          {this.props.todo.labels && this.props.todo.labels.length > 0 &&
-            this.props.todo.labels.map((label, i) => {
-              return <TodoLabel
-                key={'todo-item-label-edit-' + i}
-                label={label}
-                editable={true}
-                deletable={true}
-                onReplace={(newLabel) => this.props.onLabelReplace(label, newLabel)}
-                onRemove={(value) => this.props.onLabelRemove(value)}
-              />;
-            })}
+        <div className="edit-mode">
+          <input
+            ref={this.editField}
+            className="edit"
+            value={this.state.editText}
+            onChange={e => this.handleChange(e)}
+            onKeyDown={e => this.handleKeyDown(e)}
+          />
+          <button className="tick-icon" onClick={this.handleSubmit.bind(this)} />
+          <div className="todo-item-labels todo-item-labels-edit">
+            {this.props.todo.labels && this.props.todo.labels.length > 0 &&
+              this.props.todo.labels.map((label, i) => {
+                return <TodoLabel
+                  key={'todo-item-label-edit-' + i}
+                  label={label}
+                  editable={true}
+                  deletable={true}
+                  onReplace={(newLabel) => this.props.onLabelReplace(label, newLabel)}
+                  onRemove={(value) => this.props.onLabelRemove(value)}
+                />;
+              })}
+          </div>
         </div>
       </li>
     );
