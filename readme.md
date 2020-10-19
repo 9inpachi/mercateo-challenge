@@ -54,3 +54,4 @@ Following are the files related to tasks.
 * **Task 3**  
   * [./src/tests/](./src/tests/)
   * [./package.json](./package.json)
+  * **Commits:** [d6705bf](https://github.com/9inpachi/mercateo-challenge/commit/e241a978ef004ef378b18a0464151b1ad8c37f0d) [e241a97](https://github.com/9inpachi/mercateo-challenge/commit/dd19c421b51013a389212ff9e723af8ae411498d)
